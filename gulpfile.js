@@ -20,7 +20,7 @@ gulp.task('build-theme', () => {
         '!theme/{js,js/**}',
         '!theme/{scss,scss/**}'
     ])
-    .pipe(gulp.dest('./dist/' + themeDir));
+    .pipe(gulp.dest('./wordpress/wp-content/themes/' + themeDir));
 
     // Transpile JS using Babel
     let js = gulp.src([
@@ -29,7 +29,7 @@ gulp.task('build-theme', () => {
     .pipe(babel({
         presets: ['@babel/env']
     }))
-    .pipe(gulp.dest('./dist/' + themeDir + '/js'));
+    .pipe(gulp.dest('./wordpress/wp-content/themes/' + themeDir + '/js'));
 
     // Compile SCSS
     let scss = gulp.src([
@@ -38,7 +38,7 @@ gulp.task('build-theme', () => {
     .pipe(sass({
         includePaths: ['node_modules/']
       }))
-    .pipe(gulp.dest('./dist/' + themeDir + '/css'));
+    .pipe(gulp.dest('./wordpress/wp-content/themes/' + themeDir + '/css'));
 
     // Merge each stream into one
     return merge(theme, js, scss);
@@ -54,7 +54,7 @@ gulp.task('build-plugin', () => {
         '!plugin/{js,js/**}',
         '!plugin/{scss,scss/**}'
     ])
-    .pipe(gulp.dest('./dist/' + pluginDir));
+    .pipe(gulp.dest('./wordpress/wp-content/themes/' + pluginDir));
 
     // Transpile JS using Babel
     let js = gulp.src([
@@ -63,7 +63,7 @@ gulp.task('build-plugin', () => {
     .pipe(babel({
         presets: ['@babel/env']
     }))
-    .pipe(gulp.dest('./dist/' + pluginDir + '/js'));
+    .pipe(gulp.dest('./wordpress/wp-content/themes/' + pluginDir + '/js'));
 
     // Compile SCSS
     let scss = gulp.src([
@@ -72,7 +72,7 @@ gulp.task('build-plugin', () => {
     .pipe(sass({
         includePaths: ['node_modules/']
       }))
-    .pipe(gulp.dest('./dist/' + pluginDir + '/css'));
+    .pipe(gulp.dest('./wordpress/wp-content/themes/' + pluginDir + '/css'));
 
     // Merge each stream into one
     return merge(plugin, js, scss);
@@ -84,14 +84,14 @@ gulp.task('build-plugin', () => {
 gulp.task('zip', () => {
     // Zip the theme directory
     let theme = gulp.src([
-        './dist/' + themeDir + '/**'
+        './wordpress/wp-content/themes/' + themeDir + '/**'
     ])
     .pipe(zip(themeDir + '.zip'))
     .pipe(gulp.dest('./dist'));
 
     // Zip the plugin directory
     let plugin = gulp.src([
-        './dist/' + pluginDir + '/**'
+        './wordpress/wp-content/themes/' + pluginDir + '/**'
     ])
     .pipe(zip(pluginDir + '.zip'))
     .pipe(gulp.dest('./dist'));
@@ -123,3 +123,13 @@ gulp.task('release', gulp.series([
     'build',
     'zip'
 ]));
+
+// Watch
+
+gulp.task('watch', function(callback) {
+
+        gulp.watch('./theme/**/*', gulp.series('build-theme'));
+    
+        callback();
+    
+    });

@@ -6887,3 +6887,75 @@ function wp_direct_php_update_button() {
 	);
 	echo '</p>';
 }
+
+// Register Custom Post Type Portfolio Post
+function create_portfoliopost_cpt() {
+
+	$labels = array(
+		'name' => _x( 'Portfolio Posts', 'Post Type General Name', 'portfolio-posts' ),
+		'singular_name' => _x( 'Portfolio Post', 'Post Type Singular Name', 'portfolio-posts' ),
+		'menu_name' => _x( 'Portfolio Posts', 'Admin Menu text', 'portfolio-posts' ),
+		'name_admin_bar' => _x( 'Portfolio Post', 'Add New on Toolbar', 'portfolio-posts' ),
+		'archives' => __( 'Portfolio Post Archives', 'portfolio-posts' ),
+		'attributes' => __( 'Portfolio Post Attributes', 'portfolio-posts' ),
+		'parent_item_colon' => __( 'Parent Portfolio Post:', 'portfolio-posts' ),
+		'all_items' => __( 'All Portfolio Posts', 'portfolio-posts' ),
+		'add_new_item' => __( 'Add New Portfolio Post', 'portfolio-posts' ),
+		'add_new' => __( 'Add New', 'portfolio-posts' ),
+		'new_item' => __( 'New Portfolio Post', 'portfolio-posts' ),
+		'edit_item' => __( 'Edit Portfolio Post', 'portfolio-posts' ),
+		'update_item' => __( 'Update Portfolio Post', 'portfolio-posts' ),
+		'view_item' => __( 'View Portfolio Post', 'portfolio-posts' ),
+		'view_items' => __( 'View Portfolio Posts', 'portfolio-posts' ),
+		'search_items' => __( 'Search Portfolio Post', 'portfolio-posts' ),
+		'not_found' => __( 'Not found', 'portfolio-posts' ),
+		'not_found_in_trash' => __( 'Not found in Trash', 'portfolio-posts' ),
+		'featured_image' => __( 'Featured Image', 'portfolio-posts' ),
+		'set_featured_image' => __( 'Set featured image', 'portfolio-posts' ),
+		'remove_featured_image' => __( 'Remove featured image', 'portfolio-posts' ),
+		'use_featured_image' => __( 'Use as featured image', 'portfolio-posts' ),
+		'insert_into_item' => __( 'Insert into Portfolio Post', 'portfolio-posts' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this Portfolio Post', 'portfolio-posts' ),
+		'items_list' => __( 'Portfolio Posts list', 'portfolio-posts' ),
+		'items_list_navigation' => __( 'Portfolio Posts list navigation', 'portfolio-posts' ),
+		'filter_items_list' => __( 'Filter Portfolio Posts list', 'portfolio-posts' ),
+	);
+	$args = array(
+		'label' => __( 'Portfolio Post', 'portfolio-posts' ),
+		'description' => __( 'Portfolio Post', 'portfolio-posts' ),
+		'labels' => $labels,
+		'menu_icon' => 'dashicons-admin-customizer',
+		'supports' => array('title', 'editor', 'thumbnail', 'revisions', 'author', 'comments', 'page-attributes', 'post-formats', 'custom-fields'),
+		'taxonomies' => array(),
+		'public' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'menu_position' => 5,
+		'show_in_admin_bar' => true,
+		'show_in_nav_menus' => true,
+		'can_export' => true,
+		'has_archive' => true,
+		'hierarchical' => false,
+		'exclude_from_search' => false,
+		'show_in_rest' => true,
+		'publicly_queryable' => true,
+		'capability_type' => 'page',
+	);
+	register_post_type( 'portfoliopost', $args );
+
+}
+add_action( 'init', 'create_portfoliopost_cpt', 0 );
+
+function bootstrapstarter_enqueue_styles() {
+    wp_register_style('bootstrap', get_template_directory_uri() . '/bootstrap/css/bootstrap.min.css' );
+    $dependencies = array('bootstrap');
+    wp_enqueue_style( 'bootstrapstarter-style', get_stylesheet_uri(), $dependencies ); 
+}
+
+function bootstrapstarter_enqueue_scripts() {
+    $dependencies = array('jquery');
+    wp_enqueue_script('bootstrap', get_template_directory_uri().'/bootstrap/js/bootstrap.min.js', $dependencies, '3.3.6', true );
+}
+
+add_action( 'wp_enqueue_scripts', 'bootstrapstarter_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', 'bootstrapstarter_enqueue_scripts' );
