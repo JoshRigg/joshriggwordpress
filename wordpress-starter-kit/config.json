@@ -1,0 +1,5 @@
+{
+    "name": "wordpress",
+    "buildTheme": true,
+    "buildPlugin": true
+}

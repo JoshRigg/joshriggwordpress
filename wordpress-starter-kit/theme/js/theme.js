@@ -1,0 +1,1 @@
+window.onload = event => console.log('Theme initialised!:', { event });
